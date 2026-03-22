@@ -1,0 +1,33 @@
+# build.yml
+
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install dosfstools
+          sudo apt install llvm clang lld
+          sudo apt install git make
+
+      - name: Prepare
+        run: make prepare
+      - name: Build
+        run: make
+
+      - name: Upload
+        uses: actions/upload-artifact@v5
+        with:
+          name: Twilight
+          path: Build/Live.img
