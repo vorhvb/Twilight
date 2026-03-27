@@ -17,36 +17,13 @@
 .code16
 .globl menu
 
-.data
-	bytes_per_sector: .space 2
-	sectors_per_cluster: .space 1
-
-	reserved_sectors: .space 2
-	tables: .space 1
-	root_entries: .space 2
-
-	total_sectors: .space 2
-	sectors_per_table: .space 2
-
-	sectors_per_track: .space 2
-	heads: .space 2
-
-	root_size: .space 2
-	root_size_sectors: .space 2
-	root_start: .space 2
-
-	folder_name: .space 11
-	folder_first_cluster: .space 2
-
-	boot_string: .ascii "BOOT       "
-
 # ──────────────────────────────────────────────────────────────────────
 
 menu:
 	# call read
 
 	movb $0x0E, %ah
-	movb tables, %al
+	movb $'M', %al
 	int $0x10
 
 	cli
@@ -211,6 +188,31 @@ convert:
 	or %ah, %cl                 # CL = (high << 6) | sector
 
 	ret
+
+# ──────────────────────────────────────────────────────────────────────
+
+.data
+	bytes_per_sector: .space 2
+	sectors_per_cluster: .space 1
+
+	reserved_sectors: .space 2
+	tables: .space 1
+	root_entries: .space 2
+
+	total_sectors: .space 2
+	sectors_per_table: .space 2
+
+	sectors_per_track: .space 2
+	heads: .space 2
+
+	root_size: .space 2
+	root_size_sectors: .space 2
+	root_start: .space 2
+
+	folder_name: .space 11
+	folder_first_cluster: .space 2
+
+	boot_string: .ascii "BOOT       "
 
 # ──────────────────────────────────────────────────────────────────────
 

@@ -13,18 +13,23 @@
 
 # ──────────────────────────────────────────────────────────────────────
 
+# TODO: add proper LBA-to-CHS conversion!
+
 _start:
 	movw $0x0003, %ax
 	int $0x10
 
+	movw $(0x7E00 >> 4), %ax
+	movw %ax, %es
+
 	movw $0x0208, %ax
-	movw $0x7E00, %bx
+	movw $0, %bx
 	movw $0x0002, %cx
 	int $0x13
 
-	jmp error
+	jc error
 
-	ljmp $0x07E0, $0x0000
+	ljmp $(0x7E00 >> 4), $0
 
 error:
 	movb $0x0E, %ah

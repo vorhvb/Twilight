@@ -12,6 +12,9 @@
 // TODO: Rewrite on ASM
 //
 // FIXME: fix type in cyl~l~inder
+//
+// TODO: remove this file. Move it's logic to Modules/Storage/ and flatten
+// some of it into Menu, and a CHS-to-LBA part to Bootloader
 
 #include <stdint.h>
 #include <stdbool.h>

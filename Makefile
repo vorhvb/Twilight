@@ -57,9 +57,6 @@ pack:
 	sudo cp Build/Binaries/Kernel /mnt/Boot
 	sudo umount /mnt
 
-	printf '\130' | dd of=Build/Live.img \
-		bs=1 seek=1 conv=notrunc
-
 prepare:
 	-mkdir Build
 	-mkdir Build/Objects
