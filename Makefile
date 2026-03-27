@@ -18,22 +18,27 @@ all: compile link pack
 compile:
 	clang -c Bootloader.asm -o Build/Objects/Bootloader.o \
 		$(FLAGS)
-	#clang -c Menu.asm -o Build/Objects/Menu.o $(FLAGS)
-	clang -c Menu.c -o Build/Objects/Menu.o \
-		$(FLAGS) $(C)
+	clang -c Menu.asm -o Build/Objects/Menu.o $(FLAGS)
 	clang -c Kernel.c -o Build/Objects/Kernel.o \
 		$(FLAGS) $(C)
 
 	clang -c Modules/*.c \
 		$(FLAGS) $(C) \
 	&& mv *.o Build/Objects/Modules
+
+	clang -c Modules/Display/*.c \
+		$(FLAGS) $(C) \
+	&& mv *.o Build/Objects/Modules/Display
+	clang -c Modules/Storage/*.c \
+		$(FLAGS) $(C) \
+	&& mv *.o Build/Objects/Modules/Storage
 link:
 	ld.lld Build/Objects/Bootloader.o -o Build/Binaries/Bootloader \
 		-e _start -Ttext 0x7C00 $(LD)
 	ld.lld Build/Objects/Menu.o -o Build/Binaries/Menu \
 		-e menu -Ttext 0x7E00 $(LD)
 
-	ld.lld Build/Objects/Kernel.o Build/Objects/Modules/* -o Build/Binaries/Kernel \
+	ld.lld Build/Objects/Kernel.o Build/Objects/Modules/* Build/Objects/Modules/Display/* Build/Objects/Modules/Storage/* -o Build/Binaries/Kernel \
 		-e main -Ttext 0x8E00 $(LD)
 pack:
 	dd if=/dev/zero of=Build/Live.img \
@@ -52,8 +57,8 @@ pack:
 	sudo cp Build/Binaries/Kernel /mnt/Boot
 	sudo umount /mnt
 
-	printf '\353\130\220' | dd of=Build/Live.img \
-		bs=1 conv=notrunc
+	printf '\130' | dd of=Build/Live.img \
+		bs=1 seek=1 conv=notrunc
 
 prepare:
 	-mkdir Build
@@ -81,6 +86,8 @@ dump:
 	cat Kernel.c
 
 	cat Modules/*
+	cat Modules/Display/*
+	cat Modules/Storage/*
 
 	cat Makefile
 
