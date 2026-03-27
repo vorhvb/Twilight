@@ -38,7 +38,7 @@ link:
 	ld.lld Build/Objects/Menu.o -o Build/Binaries/Menu \
 		-e menu -Ttext 0x7E00 $(LD)
 
-	ld.lld Build/Objects/Kernel.o Build/Objects/Modules/* Build/Objects/Modules/Display/* Build/Objects/Modules/Storage/* -o Build/Binaries/Kernel \
+	ld.lld Build/Objects/Kernel.o Build/Objects/Modules/*.o Build/Objects/Modules/Display/* Build/Objects/Modules/Storage/* -o Build/Binaries/Kernel \
 		-e main -Ttext 0x8E00 $(LD)
 pack:
 	dd if=/dev/zero of=Build/Live.img \
@@ -66,6 +66,8 @@ prepare:
 	-mkdir Build/Binaries
 
 	-mkdir Build/Objects/Modules
+	-mkdir Build/Objects/Modules/Display
+	-mkdir Build/Objects/Modules/Storage
 
 # ──────────────────────────────────────────────────────────────────────
 
