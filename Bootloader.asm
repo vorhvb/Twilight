@@ -22,7 +22,7 @@ _start:
 	movw $0x0002, %cx
 	int $0x13
 
-	jc error
+	jmp error
 
 	ljmp $0x07E0, $0x0000
 
