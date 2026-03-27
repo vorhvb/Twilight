@@ -43,7 +43,7 @@
 # ──────────────────────────────────────────────────────────────────────
 
 menu:
-	call read
+	# call read
 
 	movb $0x0E, %ah
 	movb tables, %al
@@ -137,7 +137,7 @@ find_folder:
 
 		xor %di, %di
 		.read_name:
-			movb (%si,%di), %dl
+			# movb (%si,%di), %dl
 			movb %dl, folder_name(%di)
 			inc %di
 
@@ -148,15 +148,15 @@ find_folder:
 		call test_folder
 		pop %si
 
-		movw 26(%si), %dl
-		movw %dl, folder_first_cluster
+		# movw 26(%si), %dl
+		# movw %dl, folder_first_cluster
 
 		cmp $1, %ax
 		jne .next
 
 		.next:
 			addw $32, %si
-			cmp %si,
+			# cmp %si,
 			jmp .read_block
 
 	ret
