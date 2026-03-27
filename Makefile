@@ -18,8 +18,9 @@ all: compile link pack
 compile:
 	clang -c Bootloader.asm -o Build/Objects/Bootloader.o \
 		$(FLAGS)
-	clang -c Menu.asm -o Build/Objects/Menu.o \
-		$(FLAGS)
+	#clang -c Menu.asm -o Build/Objects/Menu.o $(FLAGS)
+	clang -c Menu.c -o Build/Objects/Menu.o \
+		$(FLAGS) $(C)
 	clang -c Kernel.c -o Build/Objects/Kernel.o \
 		$(FLAGS) $(C)
 
@@ -41,7 +42,7 @@ pack:
 		Build/Live.img
 
 	dd if=Build/Binaries/Bootloader of=Build/Live.img \
-		bs=1 seek=90 conv=notrunc
+		bs=1 seek=62 conv=notrunc
 	dd if=Build/Binaries/Menu of=Build/Live.img \
 		seek=1 conv=notrunc
 
